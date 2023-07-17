@@ -1,0 +1,49 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'audio/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'video/css/style.css') }}">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>AI Avatar</title>
+</head>
+<body>
+	<div class="container">
+	<h3 style="color: black"><u>Interactive Demo</u></h3>
+	<form action = "/uploader" method = "POST" 
+	   enctype = "multipart/form-data">
+	   <label for="file">Select a video file (Max 20 seconds):</label>
+	   <input type = "file" name = "file" id="vid_inp" />
+	   <div style="margin: 25px auto;"></div>
+	   <label for="file1">Select an audio file (or) video with audio (Max 20 sec):</label>
+	   <input type = "file" name = "file1" id="aud_inp"/>
+	   <div style="margin: 25px auto;"></div>
+	   <input type = "submit" value="Sync this pair" class="button"
+		  onclick="return submit_form(this);" />
+	</form>
+	{% if filename %}
+        <div style="margin: auto; text-align: center;">
+                <video height="320" width="240" autoplay="autoplay" controls="controls" preload="preload">
+                        <source src="static/results/result_voice.mp4" type="video/mp4"></source>
+                </video>
+        </div>
+	{% endif %}
+  </div>
+  <script type="text/javascript">
+    function submit_form(obj) {
+      if (document.getElementById("aud_inp").files.length == 0){
+        alert('Audio file not selected!');
+        return false;
+      }
+      if (document.getElementById("vid_inp").files.length == 0){
+        alert('Video file not selected!');
+        return false;
+      }
+      obj.disabled=true;
+      obj.value='Please wait...';
+      obj.form.submit()
+    }
+  </script>
+</body>
+</html>
