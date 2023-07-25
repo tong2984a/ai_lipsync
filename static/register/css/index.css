@@ -156,7 +156,7 @@
   width: 879px;
   height: 735px;
 }
-.register-your-information {
+.make-your-own {
   position: absolute;
   top: 96px;
   left: 92px;
@@ -190,8 +190,8 @@
 .emergency-contact,
 .gender,
 .interests,
-.memorable-event,
-.skill-tags {
+.skill-tags,
+.words-of-wisdom {
   position: absolute;
   letter-spacing: 0.02em;
   line-height: 30px;
@@ -205,20 +205,20 @@
 .emergency-contact,
 .gender,
 .interests,
-.memorable-event {
+.words-of-wisdom {
   top: 258px;
   left: 562px;
 }
 .gender,
 .interests,
-.memorable-event {
+.words-of-wisdom {
   top: 478px;
 }
 .gender,
-.memorable-event {
+.words-of-wisdom {
   top: 733px;
 }
-.memorable-event {
+.words-of-wisdom {
   top: 605px;
   left: 563px;
 }
