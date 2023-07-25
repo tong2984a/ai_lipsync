@@ -15,7 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 @app.route('/')
 # ‘/’ URL is bound with hello_world() function.
 def index():
-    return render_template('index.html')
+    return render_template('register.html')
 
 @app.route('/success/<name>')
 def success(name, audiofile):
@@ -48,6 +48,10 @@ def upload_file():
 	else:
 		print('args', request.args)
 		print('files', request.files)
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+        return render_template('upload.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
