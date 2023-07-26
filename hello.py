@@ -34,6 +34,7 @@ def display_video(filename):
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
 	if request.method == 'POST':
+		data_id = request.form['data_id']
 		audioFile = request.files['audioFile']
 		print('audioFile', audioFile)
 		filename = secure_filename(audioFile.filename) # save file 
@@ -46,7 +47,7 @@ def upload_file():
 		imgFilepath = os.path.join(app.instance_path, filename);
 		imgFile.save(imgFilepath)
 
-		outputFilename = UPLOAD_FOLDER + 'merge.mp4'
+		outputFilename = UPLOAD_FOLDER + f"merge-{data_id}.mp4"
 		inference_web.makeFace(audioFilepath, imgFilepath, outputFilename)
 		flash('Video successfully uploaded and displayed below')
 		return render_template('mini-music-player.html', filename=outputFilename)
@@ -61,7 +62,10 @@ def register():
     .table('users') 
     .insert(post_dict)
     .execute())
-    return render_template('upload.html')
+    data_dict = data[1]
+    data_json = data_dict[0]
+    data_id = data_json['id']
+    return render_template('upload.html', data_id=data_id)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
