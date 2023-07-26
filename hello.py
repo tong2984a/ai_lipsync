@@ -1,11 +1,16 @@
 from flask import Flask, flash, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 import os, inference_web
+from supabase import create_client, Client
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(url, key)
 
 UPLOAD_FOLDER = 'static/results/'
 
 app = Flask(__name__)
-app.secret_key = "secret key"
+app.secret_key = os.environ.get("APP_SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -49,9 +54,14 @@ def upload_file():
 		print('args', request.args)
 		print('files', request.files)
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register', methods=['POST'])
 def register():
-        return render_template('upload.html')
+    post_dict = request.form.to_dict()
+    data, count = (supabase
+    .table('users') 
+    .insert(post_dict)
+    .execute())
+    return render_template('upload.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():

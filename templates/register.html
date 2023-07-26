@@ -18,39 +18,115 @@
   <body>
     <div class="register-page-2">
       <form class="frame-parent" action="/register" method="post">
-        <input class="frame-child" type="text" placeholder="Full name" />
+        <input
+          class="frame-child"
+          type="text"
+          placeholder="Full name"
+          maxlength="80"
+          name="full_name"
+          tabindex="1"
+        />
 
-        <input class="frame-item" type="text" placeholder="Full name" />
+        <input
+          class="frame-item"
+          type="text"
+          placeholder="Full name"
+          maxlength="80"
+          name="contact_name"
+          tabindex="7"
+        />
 
-        <input class="frame-inner" type="email" placeholder="Email address" />
+        <input
+          class="frame-inner"
+          type="email"
+          placeholder="Email address"
+          maxlength="40"
+          name="email"
+          tabindex="3"
+        />
 
-        <select class="choir-parent">
+        <select
+          class="choir-parent"
+          id="interest"
+          tabindex="10"
+          name="interest"
+        >
           <option value="Choir">Choir</option>
           <option value="Painting">Painting</option>
         </select>
-        <input class="frame-input" type="text" />
+        <input
+          class="frame-input"
+          type="text"
+          maxlength="80"
+          name="words_of_wisdom"
+          tabindex="11"
+        />
 
-        <input class="frame-child1" type="text" placeholder="Address" />
+        <input
+          class="frame-child1"
+          type="text"
+          placeholder="Address"
+          maxlength="80"
+          name="address"
+          tabindex="4"
+        />
 
-        <input class="frame-child2" type="text" placeholder="Education" />
+        <input
+          class="frame-child2"
+          type="text"
+          placeholder="Education"
+          maxlength="80"
+          name="education"
+          tabindex="5"
+        />
 
         <input
           class="frame-child3"
           type="text"
           placeholder="e.g. Content Writing"
+          maxlength="80"
+          name="skill"
+          tabindex="6"
         />
 
-        <input class="frame-child4" type="date" />
+        <input
+          class="frame-child4"
+          type="date"
+          maxlength="40"
+          name="date_of_birth"
+          tabindex="13"
+        />
 
-        <select class="female-parent">
+        <select class="female-parent" id="gender" tabindex="12" name="gender">
           <option value="Female">Female</option>
           <option value="Male">Male</option>
         </select>
-        <input class="frame-child5" type="tel" placeholder="Phone number" />
+        <input
+          class="frame-child5"
+          type="tel"
+          placeholder="Phone number"
+          maxlength="30"
+          name="phone"
+          tabindex="2"
+        />
 
-        <input class="frame-child6" type="tel" placeholder="Phone number" />
+        <input
+          class="frame-child6"
+          type="tel"
+          placeholder="Phone number"
+          maxlength="40"
+          name="contact_phone"
+          tabindex="8"
+        />
 
-        <input class="frame-child7" type="text" placeholder="Relation" />
+        <input
+          class="frame-child7"
+          type="text"
+          placeholder="Relation"
+          maxlength="80"
+          name="contact_relation"
+          tabindex="9"
+        />
 
         <button class="submit-wrapper" type="submit">
           <div class="submit">Submit</div>
