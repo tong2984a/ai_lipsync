@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
-import os, inference_web
+import os#, inference_web
 from supabase import create_client, Client
 
 url: str = os.environ.get("SUPABASE_URL")
@@ -20,6 +20,10 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 @app.route('/')
 # ‘/’ URL is bound with hello_world() function.
 def index():
+    return render_template('subscription.html')
+
+@app.route('/subscribe')
+def subscribe():
     return render_template('register.html')
 
 @app.route('/success/<name>')
@@ -48,7 +52,7 @@ def upload_file():
 		imgFile.save(imgFilepath)
 
 		outputFilename = UPLOAD_FOLDER + f"merge-{data_id}.mp4"
-		inference_web.makeFace(audioFilepath, imgFilepath, outputFilename)
+	#	inference_web.makeFace(audioFilepath, imgFilepath, outputFilename)
 		flash('Video successfully uploaded and displayed below')
 		return render_template('mini-music-player.html', filename=outputFilename)
 	else:
