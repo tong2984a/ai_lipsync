@@ -53,6 +53,14 @@ def upload_file():
 
 		outputFilename = UPLOAD_FOLDER + f"merge-{data_id}.mp4"
 	#	inference_web.makeFace(audioFilepath, imgFilepath, outputFilename)
+		data, count = (supabase
+		.table('files') 
+		.insert({
+			"audio_file": audioFilepath,
+			"image_file": imgFilepath,
+			"output_file": outputFilename,
+			"user_id": data_id})
+		.execute())
 		flash('Video successfully uploaded and displayed below')
 		return render_template('mini-music-player.html', filename=outputFilename)
 	else:
