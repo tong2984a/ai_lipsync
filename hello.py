@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
-import os#, inference_web
+import os, requests
 from supabase import create_client, Client
 
 url: str = os.environ.get("SUPABASE_URL")
@@ -51,16 +51,31 @@ def upload_file():
 		imgFilepath = os.path.join(app.instance_path, filename);
 		imgFile.save(imgFilepath)
 
-		outputFilename = UPLOAD_FOLDER + f"merge-{data_id}.mp4"
-	#	inference_web.makeFace(audioFilepath, imgFilepath, outputFilename)
+		outputFilename = f"merge-{data_id}.mp4"
+		outputFilepath = UPLOAD_FOLDER + outputFilename
+
+		try:
+			response = requests.get(f"http://localhost:3000/wav2lip/{audioFile.filename}/{imgFile.filename}/{outputFilename}", timeout=5)
+			response.raise_for_status()
+			# Code here will only run if the request is successful
+		except requests.exceptions.HTTPError as errh:
+			print(errh)
+		except requests.exceptions.ConnectionError as errc:
+			print(errc)
+		except requests.exceptions.Timeout as errt:
+			print(errt)
+		except requests.exceptions.RequestException as err:
+			print(err)
+
 		data, count = (supabase
 		.table('files') 
 		.insert({
 			"audio_file": audioFilepath,
 			"image_file": imgFilepath,
-			"output_file": outputFilename,
+			"output_file": outputFilepath,
 			"user_id": data_id})
 		.execute())
+		
 		flash('Video successfully uploaded and displayed below')
 		return render_template('mini-music-player.html', filename=outputFilename)
 	else:
