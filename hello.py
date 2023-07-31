@@ -22,13 +22,21 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 def index():
     return render_template('subscription.html')
 
-@app.route('/subscribe')
-def subscribe():
-    return render_template('register.html')
+@app.route('/subscribe_diamond')
+def subscribe_diamond():
+	return redirect('http://localhost:8000/diamond', code=301)
+
+@app.route('/subscribe_rocket')
+def subscribe_rocket():
+	return redirect('http://localhost:8000/rocket', code=301)
 
 @app.route('/success/<name>')
 def success(name, audiofile):
 	return 'welcome %s %s %s' % name, file, audiofile
+
+@app.route('/trial')
+def free_trial():
+	return render_template('register.html')
 
 @app.route('/display/<filename>')
 def display_video(filename):
