@@ -24,11 +24,11 @@ def index():
 
 @app.route('/subscribe_diamond')
 def subscribe_diamond():
-	return redirect('http://localhost:8000/diamond', code=301)
+	return redirect('https://3046.mooo.com:8443/diamond', code=301)
 
 @app.route('/subscribe_rocket')
 def subscribe_rocket():
-	return redirect('http://localhost:8000/rocket', code=301)
+	return redirect('https://3046.mooo.com:8443/rocket', code=301)
 
 @app.route('/success/<name>')
 def success(name, audiofile):
@@ -63,7 +63,7 @@ def upload_file():
 		outputFilepath = UPLOAD_FOLDER + outputFilename
 
 		try:
-			response = requests.get(f"http://localhost:3000/wav2lip/{audioFile.filename}/{imgFile.filename}/{outputFilename}", timeout=5)
+			response = requests.get(f"https://3046.mooo.com:3000/wav2lip/{audioFile.filename}/{imgFile.filename}/{outputFilename}", timeout=5)
 			response.raise_for_status()
 			# Code here will only run if the request is successful
 		except requests.exceptions.HTTPError as errh:
