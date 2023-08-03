@@ -1,7 +1,9 @@
 from flask import Flask, flash, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 import os, requests
+from requests import get
 from supabase import create_client, Client
+import d_id
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
@@ -49,31 +51,24 @@ def upload_file():
 		data_id = request.form['data_id']
 		audioFile = request.files['audioFile']
 		print('audioFile', audioFile)
-		filename = secure_filename(audioFile.filename) # save file 
-		audioFilepath = os.path.join(app.instance_path, filename);
+		audioFilename = secure_filename(audioFile.filename) # save file 
+		audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
 		audioFile.save(audioFilepath)
 
 		imgFile = request.files['imgFile']
 		print('imgFile', imgFile)
-		filename = secure_filename(imgFile.filename) # save file 
-		imgFilepath = os.path.join(app.instance_path, filename);
+		imgFilename = secure_filename(imgFile.filename) # save file 
+		imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
 		imgFile.save(imgFilepath)
 
 		outputFilename = f"merge-{data_id}.mp4"
 		outputFilepath = UPLOAD_FOLDER + outputFilename
-
-		try:
-			response = requests.get(f"https://3046.mooo.com:3000/wav2lip/{audioFile.filename}/{imgFile.filename}/{outputFilename}", timeout=5)
-			response.raise_for_status()
-			# Code here will only run if the request is successful
-		except requests.exceptions.HTTPError as errh:
-			print(errh)
-		except requests.exceptions.ConnectionError as errc:
-			print(errc)
-		except requests.exceptions.Timeout as errt:
-			print(errt)
-		except requests.exceptions.RequestException as err:
-			print(err)
+		print("outputFilepath", outputFilepath)
+		url = d_id.merge(audioFilename, imgFilename)
+		print("url", url)
+		with open(outputFilepath, "wb") as file:
+			response = get(url)
+			file.write(response.content)
 
 		data, count = (supabase
 		.table('files') 
@@ -85,7 +80,7 @@ def upload_file():
 		.execute())
 		
 		flash('Video successfully uploaded and displayed below')
-		return render_template('mini-music-player.html', filename=outputFilename)
+		return render_template('mini-music-player.html', filename=url)
 	else:
 		print('args', request.args)
 		print('files', request.files)
