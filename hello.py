@@ -26,11 +26,11 @@ def index():
 
 @app.route('/subscribe_diamond')
 def subscribe_diamond():
-	return redirect('https://3046.mooo.com:8443/diamond', code=301)
+	return redirect('https://3046.chickenkiller.com:8443/diamond', code=301)
 
 @app.route('/subscribe_rocket')
 def subscribe_rocket():
-	return redirect('https://3046.mooo.com:8443/rocket', code=301)
+	return redirect('https://3046.chickenkiller.com:8443/rocket', code=301)
 
 @app.route('/success/<name>')
 def success(name, audiofile):
