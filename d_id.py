@@ -25,6 +25,7 @@ def merge(audioFilename, imgFilename):
     imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
     source_url = f"https://3046.chickenkiller.com/{imgFilepath}"
     print("source_url", source_url)
+    source_url = "https://3046.chickenkiller.com/static/results/man5.jpg"
     payload = {
         "script": {
             "type": "audio",

@@ -64,11 +64,25 @@ def upload_file():
 		outputFilename = f"merge-{data_id}.mp4"
 		outputFilepath = UPLOAD_FOLDER + outputFilename
 		print("outputFilepath", outputFilepath)
-		url = d_id.merge(audioFilename, imgFilename)
-		print("url", url)
-		with open(outputFilepath, "wb") as file:
-			response = get(url)
-			file.write(response.content)
+		
+		result_url = "https://3046.chickenkiller.com/static/results/merge.mp4"
+		try:
+			result_url = d_id.merge(audioFilename, imgFilename)
+			print("result_url", result_url)
+			with open(outputFilepath, "wb") as file:
+				response = get(url)
+				file.write(response.content)
+			# Code here will only run if the request is successful
+		except requests.exceptions.HTTPError as errh:
+			print(errh)
+		except requests.exceptions.ConnectionError as errc:
+			print(errc)
+		except requests.exceptions.Timeout as errt:
+			print(errt)
+		except requests.exceptions.RequestException as err:
+			print(err)
+		except Exception as e:
+			print(e)
 
 		data, count = (supabase
 		.table('files') 
@@ -80,7 +94,7 @@ def upload_file():
 		.execute())
 		
 		flash('Video successfully uploaded and displayed below')
-		return render_template('mini-music-player.html', filename=url)
+		return render_template('mini-music-player.html', filename=result_url)
 	else:
 		print('args', request.args)
 		print('files', request.files)
