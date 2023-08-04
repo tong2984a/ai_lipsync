@@ -40,10 +40,19 @@ def success(name, audiofile):
 def free_trial():
 	return render_template('register.html')
 
-@app.route('/display/<filename>')
-def display_video(filename):
-	print('display_video filename: ' + filename)
-	return redirect(url_for(filename), code=301)
+@app.route('/confirm', methods = ['POST'])
+def confirm():
+	if request.method == 'POST':
+		email = request.form['email']
+		data_id = request.form['data_id']
+
+		data, count = (supabase
+		.table('wailist') 
+		.insert({
+			"user_id": data_id,
+			"email": email})
+		.execute())
+	return render_template('confirmation.html')
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
@@ -64,25 +73,6 @@ def upload_file():
 		outputFilename = f"merge-{data_id}.mp4"
 		outputFilepath = UPLOAD_FOLDER + outputFilename
 		print("outputFilepath", outputFilepath)
-		
-		result_url = "https://3046.chickenkiller.com/static/results/merge.mp4"
-		try:
-			result_url = d_id.merge(audioFilename, imgFilename)
-			print("result_url", result_url)
-			with open(outputFilepath, "wb") as file:
-				response = get(url)
-				file.write(response.content)
-			# Code here will only run if the request is successful
-		except requests.exceptions.HTTPError as errh:
-			print(errh)
-		except requests.exceptions.ConnectionError as errc:
-			print(errc)
-		except requests.exceptions.Timeout as errt:
-			print(errt)
-		except requests.exceptions.RequestException as err:
-			print(err)
-		except Exception as e:
-			print(e)
 
 		data, count = (supabase
 		.table('files') 
@@ -93,8 +83,7 @@ def upload_file():
 			"user_id": data_id})
 		.execute())
 		
-		flash('Video successfully uploaded and displayed below')
-		return render_template('mini-music-player.html', filename=result_url)
+		return render_template('download.html', data_id=data_id)
 	else:
 		print('args', request.args)
 		print('files', request.files)
