@@ -3,7 +3,8 @@ from werkzeug.utils import secure_filename
 import os, requests
 from requests import get
 from supabase import create_client, Client
-import d_id
+import traceback
+import logging
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
@@ -57,32 +58,35 @@ def confirm():
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
 	if request.method == 'POST':
-		data_id = request.form['data_id']
-		audioFile = request.files['audioFile']
-		print('audioFile', audioFile)
-		audioFilename = secure_filename(audioFile.filename) # save file 
-		audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
-		audioFile.save(audioFilepath)
+		try:
+			data_id = request.form['data_id']
+			audioFile = request.files['audioFile']
+			print('audioFile', audioFile)
+			audioFilename = secure_filename(audioFile.filename) # save file 
+			audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
+			audioFile.save(audioFilepath)
 
-		imgFile = request.files['imgFile']
-		print('imgFile', imgFile)
-		imgFilename = secure_filename(imgFile.filename) # save file 
-		imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
-		imgFile.save(imgFilepath)
+			imgFile = request.files['imgFile']
+			print('imgFile', imgFile)
+			imgFilename = secure_filename(imgFile.filename) # save file 
+			imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
+			imgFile.save(imgFilepath)
 
-		outputFilename = f"merge-{data_id}.mp4"
-		outputFilepath = UPLOAD_FOLDER + outputFilename
-		print("outputFilepath", outputFilepath)
+			outputFilename = f"merge-{data_id}.mp4"
+			outputFilepath = UPLOAD_FOLDER + outputFilename
+			print("outputFilepath", outputFilepath)
 
-		data, count = (supabase
-		.table('files') 
-		.insert({
-			"audio_file": audioFilepath,
-			"image_file": imgFilepath,
-			"output_file": outputFilepath,
-			"user_id": data_id})
-		.execute())
-		
+			data, count = (supabase
+			.table('files') 
+			.insert({
+				"audio_file": audioFilepath,
+				"image_file": imgFilepath,
+				"output_file": outputFilepath,
+				"user_id": data_id})
+			.execute())
+		except Exception as e:
+			logging.error(traceback.format_exc())
+
 		return render_template('download.html', data_id=data_id)
 	else:
 		print('args', request.args)
