@@ -15,6 +15,7 @@ UPLOAD_FOLDER = 'static/results/'
 app = Flask(__name__)
 app.secret_key = os.environ.get("APP_SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config["UPLOAD_EXTENSIONS"] = ['.jpg', '.png', '.gif', '.aac', '.mp3', '.m4a', '.ogg', '.wav', '.wma']
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # The route() function of the Flask class is a decorator,
@@ -61,16 +62,22 @@ def upload_file():
 		try:
 			data_id = request.form['data_id']
 			audioFile = request.files['audioFile']
-			print('audioFile', audioFile)
 			audioFilename = secure_filename(audioFile.filename) # save file 
-			audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
-			audioFile.save(audioFilepath)
+			if audioFilename != '':
+				file_ext = os.path.splitext(audioFilename)[1]
+				if file_ext.lower() not in app.config["UPLOAD_EXTENSIONS"]:
+					abort(400)
+				audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
+				audioFile.save(audioFilepath)
 
 			imgFile = request.files['imgFile']
-			print('imgFile', imgFile)
 			imgFilename = secure_filename(imgFile.filename) # save file 
-			imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
-			imgFile.save(imgFilepath)
+			if imgFilename != '':
+				file_ext = os.path.splitext(imgFilename)[1]
+				if file_ext.lower() not in app.config["UPLOAD_EXTENSIONS"]:
+					abort(400)
+				imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
+				imgFile.save(imgFilepath)
 
 			outputFilename = f"merge-{data_id}.mp4"
 			outputFilepath = UPLOAD_FOLDER + outputFilename
