@@ -62,20 +62,24 @@ def upload_file():
 		try:
 			data_id = request.form['data_id']
 			audioFile = request.files['audioFile']
-			audioFilename = secure_filename(audioFile.filename) # save file 
+			file_ext = os.path.splitext(audioFile.filename)
+			ext = file_ext[1].lower()
+			if ext not in app.config["UPLOAD_EXTENSIONS"]:
+				abort(400)
+			audioFilename = f"{file_ext[0]}_{data_id}{ext}"
+			audioFilename = secure_filename(audioFilename) # save file 
 			if audioFilename != '':
-				file_ext = os.path.splitext(audioFilename)[1]
-				if file_ext.lower() not in app.config["UPLOAD_EXTENSIONS"]:
-					abort(400)
 				audioFilepath = os.path.join(UPLOAD_FOLDER, audioFilename)
 				audioFile.save(audioFilepath)
 
 			imgFile = request.files['imgFile']
-			imgFilename = secure_filename(imgFile.filename) # save file 
+			file_ext = os.path.splitext(imgFile.filename)
+			ext = file_ext[1].lower()
+			if ext not in app.config["UPLOAD_EXTENSIONS"]:
+				abort(400)
+			imgFilename = f"{file_ext[0]}_{data_id}{ext}"
+			imgFilename = secure_filename(imgFilename) # save file 
 			if imgFilename != '':
-				file_ext = os.path.splitext(imgFilename)[1]
-				if file_ext.lower() not in app.config["UPLOAD_EXTENSIONS"]:
-					abort(400)
 				imgFilepath = os.path.join(UPLOAD_FOLDER, imgFilename)
 				imgFile.save(imgFilepath)
 
