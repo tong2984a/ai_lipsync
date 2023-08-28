@@ -24,7 +24,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 @app.route('/')
 # ‘/’ URL is bound with hello_world() function.
 def index():
-    return render_template('subscription.html')
+    return render_template('register.html')
 
 @app.route('/subscribe_diamond')
 def subscribe_diamond():
@@ -37,10 +37,6 @@ def subscribe_rocket():
 @app.route('/success/<name>')
 def success(name, audiofile):
 	return 'welcome %s %s %s' % name, file, audiofile
-
-@app.route('/trial')
-def free_trial():
-	return render_template('register.html')
 
 @app.route('/confirm', methods = ['POST'])
 def confirm():
