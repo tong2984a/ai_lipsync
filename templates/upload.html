@@ -18,7 +18,7 @@
 <div class="wrapper">
   <div class="box">
     <div class="js--image-preview"></div>
-    <div class="upload-options">
+    <div class="upload-options imgLabel">
       <label>
         <input type="file" name="imgFile" class="image-upload" accept="image/*" />
       </label>
@@ -29,7 +29,7 @@
     <div class="js--audio-preview">
       <audio class="audio-control" controls src=""></audio>
     </div>
-    <div class="upload-options">
+    <div class="upload-options audioLabel">
       <label>
         <input type="file" name="audioFile" class="image-upload" accept="audio/*" />
       </label>
@@ -40,6 +40,7 @@
   <button type="submit" class="formbold-btn w-full">Send File</button>
 </div>
 </form>
+
 <!-- partial -->
   <script src="{{ url_for('static', filename='upload/js/script.js') }}"></script>
 </body>

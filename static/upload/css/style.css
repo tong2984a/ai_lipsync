@@ -68,14 +68,22 @@ h1 {
   cursor: pointer;
   overflow: hidden;
 }
-.upload-options label::after {
-  content: "add";
-  font-family: "Material Icons";
+.imgLabel label::after {
+  content: "Upload Image";
   position: absolute;
   font-size: 2.5rem;
   color: #e6e6e6;
   top: calc(50% - 2.5rem);
-  left: calc(50% - 1.25rem);
+  left: calc(50% - 8rem);
+  z-index: 0;
+}
+.audioLabel label::after {
+  content: "Upload Audio";
+  position: absolute;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  top: calc(50% - 2.5rem);
+  left: calc(50% - 8rem);
   z-index: 0;
 }
 .upload-options label span {
@@ -104,7 +112,7 @@ h1 {
   background-size: cover;
 }
 .js--image-preview::after {
-  content: "photo_size_select_actual";
+  content: "face";
   font-family: "Material Icons";
   position: relative;
   font-size: 4.5em;
@@ -132,7 +140,7 @@ h1 {
   background-size: cover;
 }
 .js--audio-preview::after {
-  content: "audiotrack";
+  content: "record_voice_over";
   font-family: "Material Icons";
   position: relative;
   font-size: 4.5em;
